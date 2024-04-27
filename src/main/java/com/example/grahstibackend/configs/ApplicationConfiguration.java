@@ -1,5 +1,6 @@
 package com.example.grahstibackend.configs;
 import com.example.grahstibackend.repositories.UserRepository;
+import java.util.UUID;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,7 @@ public class ApplicationConfiguration {
 
     @Bean
     UserDetailsService userDetailsService() {
-        return username -> userRepository.findByEmail(username)
+        return userId -> userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 

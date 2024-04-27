@@ -3,8 +3,6 @@ package com.example.grahstibackend.configs;
 import com.example.grahstibackend.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.lang.NonNull;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 @Component
@@ -58,14 +55,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         try {
             final String jwt = authHeader.substring(7);
-            // todo: can be done via phone number/ID also
-            final String userEmail = jwtService.extractUsername(jwt);
-
+            final String userId = jwtService.extractUsername(jwt);
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-            if (userEmail != null && authentication == null) {
+            if (userId != null && authentication == null) {
                 // can perform caching activity
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userId);
 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(

@@ -2,10 +2,10 @@ package com.example.grahstibackend.services;
 
 import java.util.Optional;
 
-import org.apache.coyote.BadRequestException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +19,17 @@ public class AuthSerivce {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final CommonService commonService;
 
     public AuthSerivce(
             UserRepository userRepository,
             AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder,
+            CommonService commonService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.commonService = commonService;
     }
 
     public User register(RegisterUserDto body) {
@@ -41,7 +44,7 @@ public class AuthSerivce {
         if (userExistsByMobileNumber.isPresent()) {
             throw new RuntimeException("User Exist By mobile number");
         }
-        //create a new User
+        // create a new User
         User user = new User()
                 .setEmail(body.getEmail())
                 .setPassword(passwordEncoder.encode(body.getPassword()))
@@ -52,14 +55,24 @@ public class AuthSerivce {
     }
 
     public User authenticate(LoginUserDto data) {
-        System.out.println(data.toString());
+        User userDetails;
+        if (commonService.isValidEmail(data.getUsername())) {
+            userDetails = userRepository.findByEmail(data.getUsername())
+                    .orElseThrow();
+        } else {
+            userDetails = userRepository.findByMobileNumber(Long.parseLong(data.getUsername()))
+                    .orElseThrow();
+        }
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        data.getUsername(),
+                        userDetails.getId(),
                         data.getPassword()));
-        // can do for phone Number or Username based
-        return userRepository.findByEmail(data.getUsername())
-                .orElseThrow();
+        return userDetails;
+    }
+
+    public User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (User) authentication.getPrincipal();
     }
 
     // TODO: create change password and forget password functionalities.
