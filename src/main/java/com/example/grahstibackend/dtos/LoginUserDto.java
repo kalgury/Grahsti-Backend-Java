@@ -1,12 +1,18 @@
 package com.example.grahstibackend.dtos;
 
-public class LoginUserDto {
+import com.example.grahstibackend.validations.Username;
+import jakarta.validation.constraints.NotNull;
 
+public class LoginUserDto {
+    
+    @NotNull(message = "Username is required.")
+    @Username()
     private String username;
+
+    @NotNull(message = "Password is required.")
     private String password;
 
     // getters and setters here...
-    // Todo: Add validation rules.
     public String getUsername() {
         return username;
     }

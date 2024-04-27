@@ -14,13 +14,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 public class GlobalExcepHandler {
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleSecurityException(Exception exception) {
         ProblemDetail errorDetail = null;
-
         // TODO send this stack trace to an observability tool
         exception.printStackTrace();
 
@@ -60,6 +60,11 @@ public class GlobalExcepHandler {
 
         if (exception instanceof MethodArgumentNotValidException) {
             errorDetail = handleValidationErrors((MethodArgumentNotValidException) exception);
+        }
+
+        if (exception instanceof NoResourceFoundException) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(404), exception.getMessage());
+            errorDetail.setProperty("description", "No route found.");
         }
 
         if (errorDetail == null) {

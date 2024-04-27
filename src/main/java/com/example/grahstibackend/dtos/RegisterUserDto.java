@@ -7,18 +7,18 @@ import jakarta.validation.constraints.Size;
 
 public class RegisterUserDto {
 
-    @NotNull(message = "Email is required")
-    @Email(message = "Invalid email format")
+    @NotNull(message = "Email is required.")
+    @Email(message = "Invalid email format.")
     private String email;
 
-    @NotNull(message = "Password is required")
-    @Size(min = 8, max = 20, message = "Password must be between 8 and 20 characters")
+    @NotNull(message = "Password is required.")
+    @Size(min = 8, max = 20, message = "Password must be between 8 and 20 characters.")
     private String password;
 
-    @NotNull(message = "Full Name is required")
+    @NotNull(message = "Full Name is required.")
     private String fullName;
 
-    @NotNull(message = "Mobile No is required")
+    @NotNull(message = "Mobile No is required.")
     @Pattern(regexp = "^[789]\\d{9}$", message = "Enter valid mobile number.")
     private String mobileNumber;
 

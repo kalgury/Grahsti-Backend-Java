@@ -1,10 +1,6 @@
 package com.example.grahstibackend.controllers;
 
-import java.io.BufferedReader;
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +35,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginUserDto body) {
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginUserDto body) {
         User authenticatedUser = authSerivce.authenticate(body);
 
         String jwtToken = jwtService.generateToken(authenticatedUser);
