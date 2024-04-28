@@ -1,0 +1,2 @@
+1. On DTO level getters and setters must be properly defined to read all key values.
+2. For Entity inheritance we have two options either Entity based inheritance (This exists in Db as entity) or MappedSuperclass based (This is not meant to be on DB as entity sole purpose is to define a inhertable schema)

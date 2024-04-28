@@ -1,29 +1,25 @@
 package com.example.grahstibackend.entities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Date;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 @Table(name = "users")
 @Entity
-public class User implements UserDetails {
+public class User extends BaseEntity implements UserDetails {
     // @Id
     // @GeneratedValue(strategy = GenerationType.AUTO)
     // @Column(nullable = false)
     // private Integer id;
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id")
-    private UUID id;
+    // @Id
+    // @GeneratedValue(generator = "uuid2")
+    // @GenericGenerator(name = "uuid2", strategy =
+    // "org.hibernate.id.UUIDGenerator")
+    // @Column(name = "id")
+    // private UUID id;
 
     @Column(nullable = false)
     private String fullName;
@@ -37,13 +33,13 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @CreationTimestamp
-    @Column(updatable = false, name = "created_at")
-    private Date createdAt;
+    // @CreationTimestamp
+    // @Column(updatable = false, name = "created_at")
+    // private Date createdAt;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private Date updatedAt;
+    // @UpdateTimestamp
+    // @Column(name = "updated_at")
+    // private Date updatedAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -79,10 +75,6 @@ public class User implements UserDetails {
         return true;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
     public String getFullName() {
         return fullName;
     }
@@ -112,24 +104,6 @@ public class User implements UserDetails {
 
     public User setPassword(String password) {
         this.password = password;
-        return this;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public User setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-        return this;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public User setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
         return this;
     }
 
