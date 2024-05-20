@@ -1,2 +1,6 @@
 1. On DTO level getters and setters must be properly defined to read all key values.
 2. For Entity inheritance we have two options either Entity based inheritance (This exists in Db as entity) or MappedSuperclass based (This is not meant to be on DB as entity sole purpose is to define a inhertable schema)
+https://medium.com/@tericcabrel/implement-jwt-authentication-in-a-spring-boot-3-application-5839e4fd8fac
+https://github.com/tericcabrel/blog-tutorials/blob/main/springboot-jwt-auth/pom.xml
+https://medium.com/@tericcabrel/validate-request-body-and-parameter-in-spring-boot-53ca77f97fe9
+https://github.com/codingstreams/jwt-authentication-service/blob/jwt-authentication/src/main/java/io/github/codingstreams/jwtauthenticationservice/model/AppUser.java

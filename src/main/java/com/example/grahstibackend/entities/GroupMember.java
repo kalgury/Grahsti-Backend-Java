@@ -50,7 +50,10 @@ public class GroupMember extends BaseEntity {
         return this;
     }
 
-    public boolean isAdmin() {
+    // public boolean isAdmin() {
+    //     return isAdmin;
+    // }
+    public boolean getIsAdmin() {
         return isAdmin;
     }
 

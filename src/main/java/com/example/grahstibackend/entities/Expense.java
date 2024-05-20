@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 import com.example.grahstibackend.entities.enums.CategoryEnums;
+import com.example.grahstibackend.entities.enums.SettlementStatusEnums;
 import com.example.grahstibackend.entities.enums.StatusEnums;
 
 @Table(name = "expenses")
@@ -24,7 +25,7 @@ public class Expense extends BaseEntity {
     private String currency = "INR";
 
     @Column(nullable = false)
-    private CategoryEnums category = CategoryEnums.MISCELLANOUS;
+    private String category = "MISCELLANOUS";
 
     @Column(nullable = true)
     private String sub_category;
@@ -38,76 +39,97 @@ public class Expense extends BaseEntity {
     @Column(nullable = false)
     private StatusEnums status = StatusEnums.ACTIVE;
 
+    @Column(nullable = false)
+    private SettlementStatusEnums settlementStatus = SettlementStatusEnums.UNSETTLED;
+
     public UUID getUserId() {
         return userId;
     }
 
-    public void setUserId(UUID userId) {
+    public Expense setUserId(UUID userId) {
         this.userId = userId;
+        return this;
     }
 
     public UUID getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(UUID groupId) {
+    public Expense setGroupId(UUID groupId) {
         this.groupId = groupId;
+        return this;
     }
 
     public float getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public Expense setAmount(float amount) {
         this.amount = amount;
+        return this;
     }
 
     public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currency) {
+    public Expense setCurrency(String currency) {
         this.currency = currency;
+        return this;
     }
 
-    public CategoryEnums getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryEnums category) {
+    public Expense setCategory(String category) {
         this.category = category;
+        return this;
     }
 
     public String getSub_category() {
         return sub_category;
     }
 
-    public void setSub_category(String sub_category) {
+    public Expense setSub_category(String sub_category) {
         this.sub_category = sub_category;
+        return this;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public Expense setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Expense setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public StatusEnums getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnums status) {
+    public Expense setStatus(StatusEnums status) {
         this.status = status;
+        return this;
+    }
+
+    public SettlementStatusEnums getSettlementStatus() {
+        return settlementStatus;
+    }
+
+    public Expense setSettlementStatus(SettlementStatusEnums settlementStatus) {
+        this.settlementStatus = settlementStatus;
+        return this;
     }
 
 }
