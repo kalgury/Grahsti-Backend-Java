@@ -8,7 +8,7 @@ import org.hibernate.annotations.Type;
 
 import com.example.grahstibackend.entities.enums.GroupTypeEnums;
 
-@Table(name = "groups")
+@Table(name = "group_details")
 @Entity
 public class Group extends BaseEntity {
 
