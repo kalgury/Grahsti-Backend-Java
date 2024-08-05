@@ -2,6 +2,7 @@ package com.example.grahstibackend.services;
 
 import java.util.UUID;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.grahstibackend.dtos.AddExpenseDto;
@@ -18,7 +19,7 @@ public class ExpenseService {
     }
 
     public Iterable<Expense> groupExpenseListing(UUID groupId) {
-        return expenseRepository.findAllByGroupId(groupId);
+        return expenseRepository.findAllByGroupId(groupId, Sort.by("createdAt").descending());
     }
 
     public Expense addNewGroupCategory(AddExpenseDto data){

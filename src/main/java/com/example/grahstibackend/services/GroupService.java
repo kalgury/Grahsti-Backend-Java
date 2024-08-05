@@ -2,6 +2,7 @@ package com.example.grahstibackend.services;
 
 import java.util.UUID;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.grahstibackend.dtos.CreateGroupDto;
@@ -21,7 +22,7 @@ public class GroupService {
     }
 
     public Iterable<Group> getGroupListing(UUID userId) {
-        return groupRepository.findAll();
+        return groupRepository.findAll(Sort.by("createdAt").ascending());
     }
 
     public Group createNewGroup(CreateGroupDto body) {
