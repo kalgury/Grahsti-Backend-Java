@@ -17,7 +17,9 @@ public class AddExpenseDto {
     private String description;
 
     private String category;
-
+    
+    private Boolean isSettled = false;
+    
     private UUID userId;
     private UUID groupId;
 
@@ -67,6 +69,14 @@ public class AddExpenseDto {
 
     public void setUserId(UUID userId) {
         this.userId = userId;
+    }
+
+    public Boolean getIsSettled() {
+        return isSettled;
+    }
+
+    public void setIsSettled(Boolean isSettled) {
+        this.isSettled = isSettled;
     }
 
 }

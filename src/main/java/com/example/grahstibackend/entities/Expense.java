@@ -13,34 +13,34 @@ import com.example.grahstibackend.entities.enums.StatusEnums;
 public class Expense extends BaseEntity {
     // to add relations later
     @Column(nullable = false)
-    private UUID userId;
+    protected UUID userId;
 
     @Column(nullable = true)
-    private UUID groupId;
+    protected UUID groupId;
 
     @Column(nullable = false)
-    private float amount = 0;
+    protected float amount = 0;
 
     @Column(nullable = false)
-    private String currency = "INR";
+    protected String currency = "INR";
 
     @Column(nullable = false)
-    private String category = "MISCELLANOUS";
+    protected String category = "MISCELLANOUS";
 
     @Column(nullable = true)
-    private String sub_category;
+    protected String sub_category;
 
     @Column(nullable = false)
-    private String title;
+    protected String title;
 
     @Column(nullable = true)
-    private String description;
+    protected String description;
 
     @Column(nullable = false)
-    private StatusEnums status = StatusEnums.ACTIVE;
+    protected StatusEnums status = StatusEnums.ACTIVE;
 
     @Column(nullable = false)
-    private SettlementStatusEnums settlementStatus = SettlementStatusEnums.UNSETTLED;
+    protected SettlementStatusEnums settlementStatus = SettlementStatusEnums.UNSETTLED;
 
     public UUID getUserId() {
         return userId;

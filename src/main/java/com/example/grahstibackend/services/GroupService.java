@@ -1,5 +1,7 @@
 package com.example.grahstibackend.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Sort;
@@ -22,19 +24,27 @@ public class GroupService {
     }
 
     public Iterable<Group> getGroupListing(UUID userId) {
-        return groupRepository.findAll(Sort.by("createdAt").ascending());
+        Iterable<GroupMember> userGroupMemberships =groupMembersRepository.findUsersGroupMembershipByUserId(userId);
+        List<UUID> groupIds = new ArrayList<UUID>();
+        for (GroupMember groupMember : userGroupMemberships) {
+            groupIds.add(groupMember.getGroupId());
+        }
+        return groupRepository.findAllGroupsByIdIn(groupIds,Sort.by("createdAt").ascending());
     }
 
     public Group createNewGroup(CreateGroupDto body) {
-        System.out.println("---------------------"+body.getCreatedBy());
-        Group user = new Group()
+        Group groupDoc = new Group()
                 .setTitle(body.getTitle())
                 .setTotalBudget(body.getTotalBudget())
                 .setCreatedBy(body.getCreatedBy())
                 .setType(body.getType());
-
-        return groupRepository.save(user);
+        Group group =  groupRepository.save(groupDoc);
+        GroupMember adminGroupMemeber = new GroupMember()
+            .setAdmin(true).setGroupId(group.getId()).setUserId(body.getCreatedBy());
+        groupMembersRepository.save(adminGroupMemeber);
+        return group;
     }
+    
 
     public Group fetchGroupById(UUID groupId){
         Group groupDetails = groupRepository.findById(groupId).orElseThrow();
@@ -47,7 +57,6 @@ public class GroupService {
         if(hasAlredyJoined != null){
             return;
         }
-
         GroupMember newMember = new GroupMember().setUserId(userId).setGroupId(groupId);
         groupMembersRepository.save(newMember);
         return;

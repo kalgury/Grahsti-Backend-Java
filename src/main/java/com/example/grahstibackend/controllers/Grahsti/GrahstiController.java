@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.grahstibackend.dtos.AddExpenseDto;
 import com.example.grahstibackend.dtos.CreateGroupDto;
+import com.example.grahstibackend.dtos.ExpensesListDto;
 import com.example.grahstibackend.entities.Expense;
 import com.example.grahstibackend.entities.Group;
 import com.example.grahstibackend.entities.GroupCategory;
@@ -26,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -145,16 +145,8 @@ public class GrahstiController {
     // ----------- expenses
 
     @GetMapping("/expenses/{groupId}")
-    public ResponseEntity<Iterable<Expense>> getGroupExpenses(@PathVariable UUID groupId) {
-        // User userDetails = authSerivce.getAuthenticatedUser();
-        // body.setCreatedBy(userDetails.id);
-        // Group newGroup = groupService.createNewGroup(body);
-
-        // recente first
-        // paginated
-        //
-        Iterable<Expense> expenseList = expenseService.groupExpenseListing(groupId);
-
+    public ResponseEntity<Iterable<ExpensesListDto>> getGroupExpenses(@PathVariable UUID groupId,@RequestParam(defaultValue = "1", required= false) int page) {
+        Iterable<ExpensesListDto> expenseList = expenseService.groupExpenseListing(groupId,page);
         return ResponseEntity.ok(expenseList);
     }
 
@@ -173,7 +165,7 @@ public class GrahstiController {
 
         body.setUserId(userDetails.id);
         body.setGroupId(groupId);
-        Expense newExpense = expenseService.addNewGroupCategory(body);
+        Expense newExpense = expenseService.addNewExpense(body);
         // Group newGroup = groupService.createNewGroup(body);
         System.out.println(newExpense);
         // TODO: process POST request
