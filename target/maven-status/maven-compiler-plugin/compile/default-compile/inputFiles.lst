@@ -26,6 +26,7 @@ D:\Projects\grahsti-backend\src\main\java\com\example\grahstibackend\repositorie
 D:\Projects\grahsti-backend\src\main\java\com\example\grahstibackend\repositories\UserRepository.java
 D:\Projects\grahsti-backend\src\main\java\com\example\grahstibackend\repositories\GroupRepository.java
 D:\Projects\grahsti-backend\src\main\java\com\example\grahstibackend\services\GroupCategoryService.java
+D:\Projects\grahsti-backend\src\main\java\com\example\grahstibackend\dtos\GroupMembersList.java
 D:\Projects\grahsti-backend\src\main\java\com\example\grahstibackend\controllers\Grahsti\GrahstiController.java
 D:\Projects\grahsti-backend\src\main\java\com\example\grahstibackend\dtos\ExpensesListDto.java
 D:\Projects\grahsti-backend\src\main\java\com\example\grahstibackend\dtos\LoginUserDto.java

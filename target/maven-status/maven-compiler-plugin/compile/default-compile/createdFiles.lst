@@ -1,7 +1,11 @@
 com\example\grahstibackend\repositories\UserRepository.class
 com\example\grahstibackend\repositories\GroupMembersRepository.class
+com\example\grahstibackend\controllers\Grahsti\GrahstiController.class
 com\example\grahstibackend\controllers\AuthController.class
+com\example\grahstibackend\dtos\GroupMembersList.class
+com\example\grahstibackend\repositories\GroupCategoryRepository.class
 com\example\grahstibackend\exceptions\GlobalExcepHandler.class
+com\example\grahstibackend\services\ExpenseService.class
 com\example\grahstibackend\configs\ApplicationConfiguration.class
 com\example\grahstibackend\controllers\UserController.class
 com\example\grahstibackend\entities\BaseEntity.class
@@ -23,10 +27,13 @@ com\example\grahstibackend\services\CommonService.class
 com\example\grahstibackend\GrahstiBackendApplication.class
 com\example\grahstibackend\services\GroupService.class
 com\example\grahstibackend\dtos\LoginUserDto.class
+com\example\grahstibackend\entities\GroupCategory.class
 com\example\grahstibackend\repositories\GroupRepository.class
 com\example\grahstibackend\validations\UsernameValidator.class
 com\example\grahstibackend\dtos\AddExpenseDto.class
 com\example\grahstibackend\repositories\ExpenseRepository.class
+com\example\grahstibackend\services\GroupCategoryService.class
+com\example\grahstibackend\dtos\ExpensesListDto.class
 com\example\grahstibackend\entities\enums\GroupTypeEnums.class
 com\example\grahstibackend\dtos\CreateGroupDto.class
 com\example\grahstibackend\dtos\RegisterUserDto.class

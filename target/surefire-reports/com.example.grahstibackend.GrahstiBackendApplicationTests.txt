@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.example.grahstibackend.GrahstiBackendApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.75 s -- in com.example.grahstibackend.GrahstiBackendApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.63 s -- in com.example.grahstibackend.GrahstiBackendApplicationTests
