@@ -1,12 +1,12 @@
 package com.example.grahstibackend.services;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +18,7 @@ import com.example.grahstibackend.dtos.ExpensesListDto;
 import com.example.grahstibackend.entities.Expense;
 import com.example.grahstibackend.entities.User;
 import com.example.grahstibackend.entities.enums.SettlementStatusEnums;
+import com.example.grahstibackend.entities.enums.StatusEnums;
 import com.example.grahstibackend.repositories.ExpenseRepository;
 import com.example.grahstibackend.repositories.UserRepository;
 
@@ -33,7 +34,7 @@ public class ExpenseService {
 
     public Iterable<ExpensesListDto> groupExpenseListing(UUID groupId, int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber -1 , 50, Sort.by("createdAt").descending());
-        Page<Expense> expenseList = expenseRepository.findAllByGroupId(groupId, pageable);
+        Page<Expense> expenseList = expenseRepository.findAllByGroupIdAndStatus(groupId, StatusEnums.ACTIVE,pageable);
 
         Map<UUID, User> userMap = new HashMap<>(); // Use HashMap for memoization
 
@@ -69,5 +70,37 @@ public class ExpenseService {
         Expense expense = expenseRepository.findById(expenseId).orElseThrow();
         expense.setSettlementStatus(isSettled ? SettlementStatusEnums.SETTLED : SettlementStatusEnums.UNSETTLED);
         return expenseRepository.save(expense);
+    }
+
+    public void updateExpense(UUID expenseId, AddExpenseDto body) throws BadRequestException {
+        Expense expenseDetails = expenseRepository.findById(expenseId).orElse(null);
+        if (expenseDetails == null)
+        throw new BadRequestException("Expense not found. Invalid Expense Id");
+        
+        expenseDetails.setTitle(body.getTitle());
+        expenseDetails.setAmount(body.getAmount());
+        expenseDetails.setDescription(body.getDescription());
+        expenseDetails.setCategory(body.getCategory());
+        expenseRepository.save(expenseDetails);
+    }
+
+    public void deleteExpense(UUID expenseId) throws BadRequestException {
+        Expense expenseDetails = expenseRepository.findById(expenseId).orElse(null);
+        if (expenseDetails == null)
+        throw new BadRequestException("Expense not found. Invalid Expense Id");
+        
+        expenseDetails.setStatus(StatusEnums.INACTIVE);
+        expenseRepository.save(expenseDetails);
+    }
+
+    public ExpensesListDto getExpenseDetails(UUID expenseId) throws BadRequestException {
+        Expense expenseDetailsUnpopulated = expenseRepository.findById(expenseId).orElse(null);
+        if (expenseDetailsUnpopulated == null)
+            throw new BadRequestException("Expense not found. Invalid Expense Id");
+
+        User user = userRepository.findById(expenseDetailsUnpopulated.getUserId()).orElse(null);
+        ExpensesListDto expenseDetails = new ExpensesListDto(expenseDetailsUnpopulated, user.getFullName());
+
+        return expenseDetails;
     }
 }

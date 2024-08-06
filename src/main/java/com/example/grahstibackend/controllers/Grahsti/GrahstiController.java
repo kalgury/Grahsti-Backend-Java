@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.grahstibackend.dtos.AddExpenseDto;
 import com.example.grahstibackend.dtos.CreateGroupDto;
 import com.example.grahstibackend.dtos.ExpensesListDto;
+import com.example.grahstibackend.dtos.GroupMembersList;
 import com.example.grahstibackend.entities.Expense;
 import com.example.grahstibackend.entities.Group;
 import com.example.grahstibackend.entities.GroupCategory;
@@ -28,6 +29,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -107,9 +109,9 @@ public class GrahstiController {
     // ------------- group members
 
     @GetMapping("/group/{groupId}/members")
-    public  ResponseEntity<Iterable<GroupMember>> getGroupMembers(@PathVariable UUID groupId) {
+    public  ResponseEntity<Iterable<GroupMembersList>> getGroupMembers(@PathVariable UUID groupId) {
         //TODO: append user details like name and all
-        Iterable<GroupMember> membersList =  groupService.getGroupMembersListing(groupId);
+        Iterable<GroupMembersList> membersList =  groupService.getGroupMembersListing(groupId);
         return  ResponseEntity.ok(membersList);
     }
     @GetMapping("/group/{groupId}/member-details")
@@ -144,18 +146,16 @@ public class GrahstiController {
 
     // ----------- expenses
 
-    @GetMapping("/expenses/{groupId}")
+    @GetMapping("/expense/list/{groupId}")
     public ResponseEntity<Iterable<ExpensesListDto>> getGroupExpenses(@PathVariable UUID groupId,@RequestParam(defaultValue = "1", required= false) int page) {
         Iterable<ExpensesListDto> expenseList = expenseService.groupExpenseListing(groupId,page);
         return ResponseEntity.ok(expenseList);
     }
 
-    @GetMapping("/expense/details/{expenseId}")
-    public String getExpenseDetails(@PathVariable String id, @RequestParam String param) {
-        // recente first
-        // paginated
-        //
-        return new String();
+    @GetMapping("/expense/{expenseId}")
+    public ResponseEntity<ExpensesListDto> getExpenseDetails(@PathVariable UUID expenseId) throws BadRequestException  {
+        ExpensesListDto expenseDetails = expenseService.getExpenseDetails(expenseId);
+        return ResponseEntity.ok(expenseDetails);
     }
 
     // restrict this only to admins
@@ -173,19 +173,17 @@ public class GrahstiController {
         return ResponseEntity.ok("Expense Added");
     }
 
-    @PutMapping("/expense/{id}")
-    public String updateExpense(@PathVariable String id, @RequestBody String entity) {
-        // TODO: process PUT request
-
-        return entity;
+    @PutMapping("/expense/{expenseId}")
+    public ResponseEntity<String> updateExpense(@PathVariable UUID expenseId, @RequestBody AddExpenseDto body) throws BadRequestException {
+        expenseService.updateExpense(expenseId, body);
+        return ResponseEntity.ok("Expense updated");
     }
     
     // can be used to kick a group member and leave group
-    @DeleteMapping("/expense/{id}")
-    public String deleteExpense(@PathVariable String id, @RequestBody String entity) {
-        // TODO: process PUT request
-
-        return entity;
+    @DeleteMapping("/expense/{expenseId}")
+    public ResponseEntity<String> deleteExpense(@PathVariable UUID expenseId) throws BadRequestException  {
+        expenseService.deleteExpense(expenseId);
+        return ResponseEntity.ok("Expense deleted");
     }
 
       // TODO: process PUT request and also consume Settlement model

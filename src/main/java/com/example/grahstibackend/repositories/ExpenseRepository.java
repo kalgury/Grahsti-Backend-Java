@@ -8,8 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.grahstibackend.entities.Expense;
+import com.example.grahstibackend.entities.enums.StatusEnums;
 
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, UUID> {
-    Page<Expense> findAllByGroupId(UUID groupId, Pageable pageable);
+    Page<Expense> findAllByGroupIdAndStatus(UUID groupId, StatusEnums status,Pageable pageable);
 }

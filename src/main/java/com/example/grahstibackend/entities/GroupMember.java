@@ -11,17 +11,17 @@ import com.example.grahstibackend.entities.enums.StatusEnums;
 public class GroupMember extends BaseEntity {
     // to add relations later
     @Column(nullable = false)
-    private UUID userId;
+    protected UUID userId;
     @Column(nullable = false)
-    private UUID groupId;
+    protected UUID groupId;
     @Column(nullable = false)
-    private boolean isAdmin = false;
+    protected boolean isAdmin = false;
 
     @Column(nullable = false)
-    private Integer contributionSplitPercentage = 0;
+    protected Integer contributionSplitPercentage = 0;
 
     @Column(nullable = false)
-    private StatusEnums status = StatusEnums.ACTIVE;
+    protected StatusEnums status = StatusEnums.ACTIVE;
 
     public StatusEnums getStatus() {
         return status;
