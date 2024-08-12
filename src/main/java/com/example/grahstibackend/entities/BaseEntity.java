@@ -11,6 +11,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @MappedSuperclass
 public abstract class BaseEntity {
@@ -22,6 +24,7 @@ public abstract class BaseEntity {
     public UUID id;
 
     @CreationTimestamp
+    @Temporal(TemporalType.DATE)
     @Column(updatable = false)
     public Date createdAt;
 

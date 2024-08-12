@@ -147,8 +147,10 @@ public class GrahstiController {
     // ----------- expenses
 
     @GetMapping("/expense/list/{groupId}")
-    public ResponseEntity<Iterable<ExpensesListDto>> getGroupExpenses(@PathVariable UUID groupId,@RequestParam(defaultValue = "1", required= false) int page) {
-        Iterable<ExpensesListDto> expenseList = expenseService.groupExpenseListing(groupId,page);
+    public ResponseEntity<Iterable<ExpensesListDto>> getGroupExpenses(@PathVariable UUID groupId,
+            @RequestParam(defaultValue = "1", required = false) int page, @RequestParam(required = true) int month,
+            @RequestParam(required = true) int year) {
+        Iterable<ExpensesListDto> expenseList = expenseService.groupExpenseListing(groupId, month, year, page);
         return ResponseEntity.ok(expenseList);
     }
 

@@ -1,5 +1,6 @@
 package com.example.grahstibackend.services;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -32,9 +33,13 @@ public class ExpenseService {
         this.userRepository = userRepository;
     }
 
-    public Iterable<ExpensesListDto> groupExpenseListing(UUID groupId, int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber -1 , 50, Sort.by("createdAt").descending());
-        Page<Expense> expenseList = expenseRepository.findAllByGroupIdAndStatus(groupId, StatusEnums.ACTIVE,pageable);
+    public Iterable<ExpensesListDto> groupExpenseListing(UUID groupId, int month, int year, int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, 50, Sort.by("createdAt").descending());
+        LocalDate startOfMonth = LocalDate.of(year, month, 1);
+        LocalDate endOfMonth = startOfMonth.withDayOfMonth(startOfMonth.lengthOfMonth());
+
+        Page<Expense> expenseList = expenseRepository.findAllByGroupIdAndStatusAndCreatedAtBetween(groupId,
+                StatusEnums.ACTIVE, startOfMonth, endOfMonth, pageable);
 
         Map<UUID, User> userMap = new HashMap<>(); // Use HashMap for memoization
 
@@ -75,8 +80,8 @@ public class ExpenseService {
     public void updateExpense(UUID expenseId, AddExpenseDto body) throws BadRequestException {
         Expense expenseDetails = expenseRepository.findById(expenseId).orElse(null);
         if (expenseDetails == null)
-        throw new BadRequestException("Expense not found. Invalid Expense Id");
-        
+            throw new BadRequestException("Expense not found. Invalid Expense Id");
+
         expenseDetails.setTitle(body.getTitle());
         expenseDetails.setAmount(body.getAmount());
         expenseDetails.setDescription(body.getDescription());
@@ -87,8 +92,8 @@ public class ExpenseService {
     public void deleteExpense(UUID expenseId) throws BadRequestException {
         Expense expenseDetails = expenseRepository.findById(expenseId).orElse(null);
         if (expenseDetails == null)
-        throw new BadRequestException("Expense not found. Invalid Expense Id");
-        
+            throw new BadRequestException("Expense not found. Invalid Expense Id");
+
         expenseDetails.setStatus(StatusEnums.INACTIVE);
         expenseRepository.save(expenseDetails);
     }
